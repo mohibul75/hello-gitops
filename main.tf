@@ -23,7 +23,7 @@ resource"azurerm_kubernetes_cluster" "testcluster"{
   agent_pool_profile {
     # Defining details for the 
     name  = "agentpool"
-    count = 3
+    count = 1
     vm_size = "Standard_B2ms"
     os_type = "Linux"
     os_disk_size_gb = 100
