@@ -1,46 +1,26 @@
 provider "azurerm" {
-  # Specifying the version is optional
-  version = "=1.22.11"
-  # Credentials are specified authenticating to Azure
-  client_id = "${var.clientid}"
-  client_secret = "${var.clientsecret}"
-  tenant_id     = "${var.tenantid}"
-  subscription_id = "${var.subscriptionid}"
+  subscription_id = var.subscription_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
+features {}
 }
-
-resource"azurerm_resource_group" "rg"{
-  # Name/Location of the Resource Group in which the AKS cluster will be created.
-  name  = "${var.resource_group_name}"
-  location  = "${var.resource_group_location}"
+resource "azurerm_resource_group" "k8s" {
+  name     = var.resourcename
+  location = var.location
 }
-
-resource"azurerm_kubernetes_cluster" "testcluster"{
-  name  = "${var.cluster_name}"
-  location  = "${var.resource_group_location}"
-  kubernetes_version  = "1.22.11"
-  resource_group_name = "${azurerm_resource_group.rg.name}"
-  dns_prefix  = "${var.cluster_name}"
-  agent_pool_profile {
-    # Defining details for the 
-    name  = "agentpool"
-    count = 3
-    vm_size = "Standard_B2ms"
-    os_type = "Linux"
-    os_disk_size_gb = 100
+resource "azurerm_kubernetes_cluster" "k8s" {
+  name                = var.clustername
+  location            = azurerm_resource_group.k8s.location
+  resource_group_name = azurerm_resource_group.k8s.name
+  dns_prefix          = var.dnspreffix
+default_node_pool {
+    name       = "default"
+    node_count = var.agentnode
+    vm_size    = var.size
   }
-
-  service_principal {
-    # Specifying a Service Principal for AKS Cluster
-    client_id = "${var.clientid}"
-    client_secret = "${var.clientsecret}"
-  }
-  # Tag's for AKS Cluster's environment along with clustername 
-  tags = {
-    environment = "test"
-    cluster_name  = "${var.cluster_name}"
-  }
-  # Enable Role Based Access Control
-  role_based_access_control {
-    enabled = true
+service_principal {
+    client_id     = var.client_id
+    client_secret = var.client_secret
   }
 }
