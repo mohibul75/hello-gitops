@@ -17,13 +17,13 @@ resource"azurerm_resource_group" "rg"{
 resource"azurerm_kubernetes_cluster" "testcluster"{
   name  = "${var.cluster_name}"
   location  = "${var.resource_group_location}"
-  kubernetes_version  = "1.24.0"
+  kubernetes_version  = "1.34.0"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   dns_prefix  = "${var.cluster_name}"
   agent_pool_profile {
     # Defining details for the 
     name  = "agentpool"
-    count = 1
+    count = 3
     vm_size = "Standard_B2ms"
     os_type = "Linux"
     os_disk_size_gb = 100
