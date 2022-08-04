@@ -24,7 +24,7 @@ resource"azurerm_kubernetes_cluster" "testcluster"{
     # Defining details for the 
     name  = "agentpool"
     count = 1
-    vm_size = "Standard_B2s"
+    vm_size = "Standard_D2s_v3"
     os_type = "Linux"
     os_disk_size_gb = 100
   }
