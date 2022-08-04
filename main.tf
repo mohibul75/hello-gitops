@@ -1,6 +1,6 @@
 provider "azurerm" {
   # Specifying the version is optional
-  version = "=1.34.0"
+  version = "=1.22.11"
   # Credentials are specified authenticating to Azure
   client_id = "${var.clientid}"
   client_secret = "${var.clientsecret}"
@@ -17,7 +17,7 @@ resource"azurerm_resource_group" "rg"{
 resource"azurerm_kubernetes_cluster" "testcluster"{
   name  = "${var.cluster_name}"
   location  = "${var.resource_group_location}"
-  kubernetes_version  = "1.34.0"
+  kubernetes_version  = "1.22.11"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   dns_prefix  = "${var.cluster_name}"
   agent_pool_profile {
