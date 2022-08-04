@@ -1,6 +1,6 @@
 provider "azurerm" {
   # Specifying the version is optional
-  version = "=1.24.0"
+  #version = "=1.24.0"
   # Credentials are specified authenticating to Azure
   client_id = "${var.clientid}"
   client_secret = "${var.clientsecret}"
